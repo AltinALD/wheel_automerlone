@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Merlon Auto — Rrotullo &amp; Fito</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --gold: #c9a227;
+      --gold-2: #e8c547;
+      --green: #0d1f14;
+      --green-2: #1a3a28;
+      --safe: env(safe-area-inset-bottom, 0px);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    html, body { max-width: 100%; overflow-x: hidden; }
+    body {
+      min-height: 100dvh;
+      font-family: "Montserrat", system-ui, sans-serif;
+      color: #fff;
+      background: var(--green);
+    }
+    .bg {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(201, 162, 39, 0.22), transparent 55%),
+        radial-gradient(ellipse 50% 40% at 50% 75%, rgba(26, 58, 40, 0.5), transparent 50%),
+        linear-gradient(180deg, #163024 0%, #0d1f14 55%, #07140c 100%);
+    }
+    .page {
+      width: min(980px, 100%);
+      margin: 0 auto;
+      padding: max(14px, env(safe-area-inset-top)) 16px calc(32px + var(--safe));
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .lang {
+      align-self: flex-end;
+      display: flex;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .lang a {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-decoration: none;
+      color: #111;
+      background: var(--gold);
+      padding: 6px 10px;
+      border-radius: 999px;
+    }
+    .lang a.dim {
+      background: rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.7);
+    }
+    .logo {
+      width: min(200px, 48vw);
+      height: auto;
+      border-radius: 14px;
+      filter: drop-shadow(0 10px 22px rgba(201, 162, 39, 0.3));
+    }
+    .kicker {
+      margin-top: 10px;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      text-align: center;
+    }
+    h1 {
+      margin-top: 4px;
+      font-size: clamp(26px, 7.5vw, 46px);
+      font-weight: 900;
+      text-align: center;
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+    h1 span { color: var(--gold); }
+    .sub {
+      margin-top: 8px;
+      max-width: 420px;
+      text-align: center;
+      color: rgba(255, 255, 255, 0.72);
+      font-size: clamp(12px, 3.4vw, 14px);
+      line-height: 1.45;
+      font-weight: 600;
+      padding: 0 4px;
+    }
+    .jackpot {
+      margin-top: 12px;
+      width: min(520px, 100%);
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 2px solid var(--gold);
+      box-shadow: 0 0 28px rgba(201, 162, 39, 0.35), 0 16px 40px rgba(0, 0, 0, 0.45);
+    }
+    .jackpot img {
+      width: 100%;
+      height: auto;
+      max-height: min(42vw, 220px);
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+    .jackpot-badge {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      z-index: 2;
+      background: linear-gradient(180deg, var(--gold-2), var(--gold));
+      color: #111;
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 6px 10px;
+      border-radius: 999px;
+    }
+    .jackpot-caption {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 22px 12px 10px;
+      background: linear-gradient(180deg, transparent, rgba(7, 20, 12, 0.92));
+      text-align: center;
+    }
+    .jackpot-caption b {
+      display: block;
+      color: var(--gold);
+      font-size: clamp(16px, 4.5vw, 24px);
+      font-weight: 900;
+    }
+    .jackpot-caption span {
+      display: block;
+      margin-top: 2px;
+      font-size: 11px;
+      color: rgba(255,255,255,0.75);
+      font-weight: 600;
+    }
+
+    .top-prizes {
+      margin-top: 10px;
+      width: min(480px, 100%);
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+    }
+    .top-prizes .tp {
+      text-align: center;
+      padding: 10px 6px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(201, 162, 39, 0.25);
+    }
+    .top-prizes .tp.max {
+      border-color: var(--gold);
+      background: linear-gradient(180deg, rgba(201, 162, 39, 0.22), rgba(255,255,255,0.04));
+      box-shadow: 0 0 20px rgba(201, 162, 39, 0.25);
+    }
+    .top-prizes .tp b {
+      display: block;
+      color: var(--gold);
+      font-size: clamp(13px, 3.6vw, 20px);
+      font-weight: 900;
+    }
+    .top-prizes .tp span {
+      display: block;
+      margin-top: 2px;
+      font-size: 9px;
+      color: rgba(255,255,255,0.65);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .stage-wrap {
+      position: relative;
+      margin-top: 14px;
+      width: min(520px, 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+    }
+
+    .side-arrow {
+      flex: 0 0 auto;
+      width: 34px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      animation: arrowBounce 1.15s ease-in-out infinite;
+    }
+    .side-arrow.left { animation-delay: 0s; }
+    .side-arrow.right { animation-delay: 0.28s; }
+    .side-arrow svg {
+      width: 34px;
+      height: 78px;
+      overflow: visible;
+      filter:
+        drop-shadow(0 0 6px rgba(232, 197, 71, 0.95))
+        drop-shadow(0 0 16px rgba(201, 162, 39, 0.75));
+    }
+    @keyframes arrowBounce {
+      0%, 100% { transform: translateY(0); opacity: 1; }
+      50% { transform: translateY(12px); opacity: 0.7; }
+    }
+
+    .stage {
+      position: relative;
+      width: min(380px, 70vw);
+      aspect-ratio: 1;
+      flex: 0 1 auto;
+    }
+    .lights {
+      position: absolute;
+      inset: -8px;
+      pointer-events: none;
+      z-index: 2;
+    }
+    .light {
+      position: absolute;
+      width: 11px;
+      height: 11px;
+      margin: -5px;
+      border-radius: 50%;
+      background: #f0e0a0;
+      box-shadow: 0 0 10px var(--gold);
+      animation: blink 1.15s ease-in-out infinite;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.35; }
+    }
+    .pointer {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      z-index: 6;
+      width: 0;
+      height: 0;
+      transform: translateX(-50%);
+      border-left: 15px solid transparent;
+      border-right: 15px solid transparent;
+      border-top: 32px solid var(--gold);
+      filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.45));
+    }
+    .pointer::after {
+      content: "";
+      position: absolute;
+      top: -38px;
+      left: -7px;
+      width: 14px;
+      height: 14px;
+      background: #fff8dc;
+      border: 3px solid #111;
+      border-radius: 50%;
+    }
+    canvas#wheel {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: #0d1f14;
+      box-shadow:
+        0 0 0 8px #0a1810,
+        0 0 0 13px var(--gold),
+        0 18px 40px rgba(0, 0, 0, 0.55);
+    }
+    .hub {
+      position: absolute;
+      inset: 36%;
+      z-index: 4;
+      border-radius: 50%;
+      background: #0d1f14;
+      border: 4px solid var(--gold);
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      pointer-events: none;
+      box-shadow: inset 0 0 16px rgba(0, 0, 0, 0.65), 0 0 18px rgba(201, 162, 39, 0.3);
+    }
+    .hub img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .spin-btn {
+      margin-top: 22px;
+      width: min(320px, 100%);
+      border: 0;
+      cursor: pointer;
+      font-family: inherit;
+      font-weight: 900;
+      font-size: 16px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #111;
+      background: linear-gradient(180deg, var(--gold-2), var(--gold) 50%, #a8861a);
+      padding: 16px 24px;
+      border-radius: 999px;
+      box-shadow: 0 10px 26px rgba(201, 162, 39, 0.35);
+    }
+    .spin-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .spin-btn:active:not(:disabled) { transform: scale(0.98); }
+    .grid {
+      width: 100%;
+      margin-top: 28px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+    .card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(201, 162, 39, 0.25);
+      border-radius: 16px;
+      padding: 14px 10px;
+      text-align: center;
+    }
+    .card.top {
+      grid-column: 1 / -1;
+      border-color: rgba(201, 162, 39, 0.55);
+      background: linear-gradient(180deg, rgba(201, 162, 39, 0.18), rgba(255, 255, 255, 0.04));
+    }
+    .card b {
+      display: block;
+      color: var(--gold);
+      font-size: 15px;
+      font-weight: 900;
+    }
+    .card span {
+      display: block;
+      margin-top: 3px;
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.62);
+      font-weight: 600;
+    }
+    .fine {
+      margin-top: 18px;
+      text-align: center;
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.38);
+      line-height: 1.5;
+      max-width: 460px;
+    }
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.78);
+      display: none;
+      place-items: center;
+      z-index: 20;
+      padding: 16px;
+    }
+    .overlay.show { display: grid; }
+    .modal {
+      width: min(420px, 100%);
+      background: linear-gradient(180deg, #1a3a28, #0d1f14);
+      border: 1px solid rgba(201, 162, 39, 0.45);
+      border-radius: 20px;
+      padding: 28px 20px 20px;
+      text-align: center;
+    }
+    .modal h2 { font-size: 24px; font-weight: 900; }
+    .prize-name {
+      margin: 12px 0 8px;
+      color: var(--gold);
+      font-size: 20px;
+      font-weight: 800;
+    }
+    .modal p { color: rgba(255, 255, 255, 0.72); font-size: 14px; line-height: 1.5; }
+    .modal button {
+      margin-top: 18px;
+      width: 100%;
+      border: 0;
+      cursor: pointer;
+      font-family: inherit;
+      font-weight: 800;
+      padding: 14px;
+      border-radius: 999px;
+      background: var(--gold);
+      color: #111;
+      font-size: 16px;
+    }
+    canvas#confetti {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 30;
+    }
+    @media (max-width: 420px) {
+      .page { padding-left: 12px; padding-right: 12px; }
+      .side-arrow { width: 26px; }
+      .side-arrow svg { width: 26px; height: 64px; }
+      .stage { width: min(300px, 68vw); }
+      .spin-btn { font-size: 14px; letter-spacing: 0.06em; padding: 14px 16px; }
+    }
+    @media (min-width: 720px) {
+      .grid { grid-template-columns: repeat(3, 1fr); }
+      .stage { width: min(420px, 90vw); }
+      .jackpot img { max-height: 260px; }
+      .logo { width: min(220px, 48vw); }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg"></div>
+  <canvas id="confetti"></canvas>
+  <div class="page">
+    <div class="lang">
+      <a href="merlon-sq.html">SQ</a>
+      <a class="dim" href="merlon-mk.html">MK</a>
+    </div>
+    <img class="logo" src="merlon-logo.jpg" alt="Merlon Auto" />
+    <p class="kicker">Strugë · Skuterë · Rent a Car</p>
+    <h1>RROTULLO &amp; <span>FITO</span></h1>
+    <p class="sub">Çmimi kryesor: ATV falas. Plus kupona 1000 / 1500 / 3000 den.</p>
+
+    <div class="jackpot">
+      <span class="jackpot-badge">Çmimi kryesor</span>
+      <img src="merlon-atv-studio.jpg" alt="ATV Merlon — çmimi kryesor" />
+      <div class="jackpot-caption">
+        <b>ATV FALAS</b>
+        <span>Grand prize · Merlon Auto</span>
+      </div>
+    </div>
+
+    <div class="top-prizes">
+      <div class="tp"><b>1000 den</b><span>Kupon</span></div>
+      <div class="tp max"><b>3000 den</b><span>Kupon max</span></div>
+      <div class="tp"><b>1500 den</b><span>Kupon</span></div>
+    </div>
+
+    <div class="stage-wrap">
+      <div class="side-arrow left" aria-hidden="true">
+        <svg viewBox="0 0 40 90" fill="none">
+          <defs>
+            <linearGradient id="agL" x1="20" y1="0" x2="20" y2="90" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#fff8dc" stop-opacity="0" />
+              <stop offset="0.45" stop-color="#e8c547" />
+              <stop offset="1" stop-color="#c9a227" />
+            </linearGradient>
+          </defs>
+          <path d="M20 4 L20 58" stroke="url(#agL)" stroke-width="5" stroke-linecap="round" />
+          <path d="M6 52 L20 78 L34 52 Z" fill="#e8c547" stroke="#fff8dc" stroke-width="1.5" />
+          <circle cx="20" cy="8" r="5" fill="#fff8dc" />
+        </svg>
+      </div>
+      <div class="stage">
+        <div class="lights" id="lights"></div>
+        <div class="pointer" aria-hidden="true"></div>
+        <canvas id="wheel" width="840" height="840"></canvas>
+        <div class="hub"><img src="merlon-logo.jpg" alt="" /></div>
+      </div>
+      <div class="side-arrow right" aria-hidden="true">
+        <svg viewBox="0 0 40 90" fill="none">
+          <defs>
+            <linearGradient id="agR" x1="20" y1="0" x2="20" y2="90" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#fff8dc" stop-opacity="0" />
+              <stop offset="0.45" stop-color="#e8c547" />
+              <stop offset="1" stop-color="#c9a227" />
+            </linearGradient>
+          </defs>
+          <path d="M20 4 L20 58" stroke="url(#agR)" stroke-width="5" stroke-linecap="round" />
+          <path d="M6 52 L20 78 L34 52 Z" fill="#e8c547" stroke="#fff8dc" stroke-width="1.5" />
+          <circle cx="20" cy="8" r="5" fill="#fff8dc" />
+        </svg>
+      </div>
+    </div>
+
+    <button class="spin-btn" id="spinBtn" type="button">Rrotullo</button>
+
+    <div class="grid">
+      <div class="card top"><b>ATV FALAS</b><span>Çmimi kryesor · Grand prize</span></div>
+      <div class="card"><b>3000 den</b><span>Kupon max</span></div>
+      <div class="card"><b>1500 den</b><span>Kupon</span></div>
+      <div class="card"><b>1000 den</b><span>Kupon</span></div>
+      <div class="card"><b>500 den</b><span>Kupon</span></div>
+      <div class="card"><b>10%</b><span>Zbritje</span></div>
+      <div class="card"><b>+1</b><span>Rrotullo përsëri</span></div>
+      <div class="card"><b>Më vonë</b><span>Provo përsëri</span></div>
+    </div>
+    <p class="fine">Kampanjë demo për Merlon Auto Strugë. Trego këtë ekran në dyqan për tërheqjen e çmimit. <a href="https://merloneauto.com/" style="color:#c9a227">merloneauto.com</a></p>
+  </div>
+
+  <div class="overlay" id="overlay" role="dialog" aria-modal="true">
+    <div class="modal">
+      <h2 id="modalTitle">Rezultati</h2>
+      <p class="prize-name" id="modalPrize"></p>
+      <p id="modalText"></p>
+      <button type="button" id="closeModal">Në rregull</button>
+    </div>
+  </div>
+
+  <script>
+    const prizes = [
+      { label: "ATV\nFALAS", short: "ATV FALAS — çmimi kryesor!", type: "jackpot", color: "#e8c547", text: "#111", weight: 3 },
+      { label: "Rrotullo\npërsëri", short: "Rrotullo përsëri", type: "again", color: "#1a3a28", text: "#fff", weight: 10 },
+      { label: "3000 den\nkupon", short: "Kupon 3000 den", type: "win", color: "#c9a227", text: "#111", weight: 10 },
+      { label: "1500 den\nkupon", short: "Kupon 1500 den", type: "win", color: "#0d1f14", text: "#fff", weight: 18 },
+      { label: "1000 den\nkupon", short: "Kupon 1000 den", type: "win", color: "#e8c547", text: "#111", weight: 18 },
+      { label: "500 den\nkupon", short: "Kupon 500 den", type: "win", color: "#1a3a28", text: "#fff", weight: 12 },
+      { label: "10%\nzbritje", short: "10% zbritje", type: "win", color: "#c9a227", text: "#111", weight: 12 },
+      { label: "Provo\nmë vonë", short: "Provo përsëri më vonë", type: "lose", color: "#0d1f14", text: "#fff", weight: 17 }
+    ];
+
+    const canvas = document.getElementById("wheel");
+    const ctx = canvas.getContext("2d");
+    const spinBtn = document.getElementById("spinBtn");
+    const overlay = document.getElementById("overlay");
+    const lights = document.getElementById("lights");
+    const TAU = Math.PI * 2;
+    const slice = TAU / prizes.length;
+    let rotation = -Math.PI / 2;
+    let spinning = false;
+
+    for (let i = 0; i < 16; i++) {
+      const a = (i / 16) * TAU - Math.PI / 2;
+      const el = document.createElement("span");
+      el.className = "light";
+      el.style.left = 50 + 50 * Math.cos(a) + "%";
+      el.style.top = 50 + 50 * Math.sin(a) + "%";
+      el.style.animationDelay = (i * 0.07) + "s";
+      lights.appendChild(el);
+    }
+
+    function drawWheel() {
+      const cx = canvas.width / 2;
+      const cy = canvas.height / 2;
+      const r = cx - 8;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      prizes.forEach((p, i) => {
+        const start = rotation + i * slice;
+        const end = start + slice;
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.arc(cx, cy, r, start, end);
+        ctx.closePath();
+        ctx.fillStyle = p.color;
+        ctx.fill();
+        ctx.strokeStyle = "rgba(255,255,255,0.18)";
+        ctx.lineWidth = 3;
+        ctx.stroke();
+        ctx.save();
+        ctx.translate(cx, cy);
+        ctx.rotate(start + slice / 2);
+        ctx.textAlign = "right";
+        ctx.fillStyle = p.text;
+        ctx.font = "700 20px Montserrat, sans-serif";
+        p.label.split("\n").forEach((line, n, arr) => {
+          ctx.fillText(line, r - 38, (n - (arr.length - 1) / 2) * 26);
+        });
+        ctx.restore();
+      });
+    }
+
+    function pickWeightedIndex() {
+      const total = prizes.reduce((s, p) => s + p.weight, 0);
+      let n = Math.random() * total;
+      for (let i = 0; i < prizes.length; i++) {
+        n -= prizes[i].weight;
+        if (n <= 0) return i;
+      }
+      return prizes.length - 1;
+    }
+
+    function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+
+    function animateSpin(index) {
+      return new Promise((resolve) => {
+        const extraTurns = 5 + Math.floor(Math.random() * 3);
+        const pointerAngle = -Math.PI / 2;
+        const current = ((rotation % TAU) + TAU) % TAU;
+        const targetMid = pointerAngle - (index + 0.5) * slice;
+        let delta = ((targetMid - current) % TAU + TAU) % TAU;
+        delta += extraTurns * TAU;
+        const start = rotation;
+        const duration = 3800;
+        const t0 = performance.now();
+        function frame(now) {
+          const t = Math.min(1, (now - t0) / duration);
+          rotation = start + delta * easeOut(t);
+          drawWheel();
+          if (t < 1) requestAnimationFrame(frame);
+          else resolve(prizes[index]);
+        }
+        requestAnimationFrame(frame);
+      });
+    }
+
+    async function spin() {
+      if (spinning) return;
+      spinning = true;
+      spinBtn.disabled = true;
+      const prize = await animateSpin(pickWeightedIndex());
+      spinning = false;
+      showResult(prize);
+    }
+
+    function showResult(prize) {
+      const title = document.getElementById("modalTitle");
+      const name = document.getElementById("modalPrize");
+      const text = document.getElementById("modalText");
+      if (prize.type === "again") {
+        title.textContent = "Edhe një shans!";
+        name.textContent = prize.short;
+        text.textContent = "Shtyp Në rregull dhe rrotullo përsëri.";
+      } else if (prize.type === "lose") {
+        title.textContent = "Provo përsëri më vonë";
+        name.textContent = prize.short;
+        text.textContent = "Këtë herë nuk ka çmim. Rrotullo përsëri për një shans të ri.";
+      } else if (prize.type === "jackpot") {
+        title.textContent = "JACKPOT!";
+        name.textContent = prize.short;
+        text.textContent = "Urime — fituat ATV-në! Trego këtë ekran te Merlon Auto Strugë.";
+        burstConfetti();
+      } else {
+        title.textContent = "Urime, fitove!";
+        name.textContent = prize.short;
+        text.textContent = "Trego këtë ekran te Merlon Auto Strugë për të tërhequr çmimin.";
+        burstConfetti();
+      }
+      spinBtn.disabled = false;
+      overlay.classList.add("show");
+    }
+
+    document.getElementById("closeModal").addEventListener("click", () => overlay.classList.remove("show"));
+    overlay.addEventListener("click", (e) => { if (e.target === overlay) overlay.classList.remove("show"); });
+    spinBtn.addEventListener("click", spin);
+    drawWheel();
+
+    const cnv = document.getElementById("confetti");
+    const cctx = cnv.getContext("2d");
+    let bits = [];
+    function sizeConfetti() { cnv.width = innerWidth; cnv.height = innerHeight; }
+    sizeConfetti();
+    addEventListener("resize", sizeConfetti);
+    function burstConfetti() {
+      const colors = ["#c9a227", "#e8c547", "#ffffff", "#1a3a28"];
+      for (let i = 0; i < 100; i++) {
+        bits.push({
+          x: innerWidth / 2, y: innerHeight * 0.3,
+          vx: (Math.random() - 0.5) * 14, vy: Math.random() * -12 - 3,
+          g: 0.26, s: 5 + Math.random() * 7, c: colors[i % 4], a: Math.random() * TAU
+        });
+      }
+    }
+    (function tick() {
+      cctx.clearRect(0, 0, cnv.width, cnv.height);
+      bits = bits.filter((b) => b.y < innerHeight + 20);
+      bits.forEach((b) => {
+        b.vy += b.g; b.x += b.vx; b.y += b.vy; b.a += 0.12;
+        cctx.save();
+        cctx.translate(b.x, b.y);
+        cctx.rotate(b.a);
+        cctx.fillStyle = b.c;
+        cctx.fillRect(-b.s / 2, -b.s / 4, b.s, b.s / 2);
+        cctx.restore();
+      });
+      requestAnimationFrame(tick);
+    })();
+  </script>
+</body>
+</html>
